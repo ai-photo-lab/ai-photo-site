@@ -14,4 +14,43 @@
   <p>سيتم تعديل الصورة وإعادتها لك هنا لاحقاً</p>
 
 </body>
+  <!-- زر رفع الصور -->
+<input type="file" id="imageUpload" />
+<button onclick="uploadImage()">رفع الصورة</button>
+
+<p id="status"></p>
+<img id="preview" width="250" />
+
+<script>
+function uploadImage() {
+  const file = document.getElementById("imageUpload").files[0];
+  if (!file) {
+    alert("اختر صورة أولاً");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "unsigned_upload"); // اسم الـ preset
+  formData.append("cloud_name", "dtwqkxjec"); // Cloud name حقك
+
+  document.getElementById("status").innerText = "جاري الرفع...";
+
+  fetch("https://api.cloudinary.com/v1_1/dtwqkxjec/image/upload", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("status").innerText = "تم الرفع ✅";
+    document.getElementById("preview").src = data.secure_url;
+
+    console.log("رابط الصورة:", data.secure_url);
+  })
+  .catch(err => {
+    document.getElementById("status").innerText = "فشل الرفع ❌";
+    console.error(err);
+  });
+}
+</script>
 </html>
