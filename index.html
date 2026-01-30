@@ -12,45 +12,64 @@
   <button>إرسال الصورة</button>
 
   <p>سيتم تعديل الصورة وإعادتها لك هنا لاحقاً</p>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Photo Editor</title>
+</head>
+
+<body style="text-align:center;font-family:Arial;direction:rtl">
+
+  <h1>ارفع صورتك للتعديل</h1>
+
+  <!-- اختيار الصورة -->
+  <input type="file" id="imageUpload" />
+  <br><br>
+
+  <!-- زر الرفع -->
+  <button onclick="uploadImage()">رفع الصورة</button>
+
+  <p id="status"></p>
+
+  <!-- معاينة الصورة بعد الرفع -->
+  <img id="preview" width="250" />
+
+  <script>
+    function uploadImage() {
+      const file = document.getElementById("imageUpload").files[0];
+
+      if (!file) {
+        alert("اختر صورة أولاً");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "unsigned_upload"); 
+      formData.append("cloud_name", "dtwqkxjec");
+
+      document.getElementById("status").innerText = "جاري رفع الصورة...";
+
+      fetch("https://api.cloudinary.com/v1_1/dtwqkxjec/image/upload", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("status").innerText = "تم رفع الصورة بنجاح ✅";
+        document.getElementById("preview").src = data.secure_url;
+
+        console.log("رابط الصورة:", data.secure_url);
+      })
+      .catch(err => {
+        document.getElementById("status").innerText = "حدث خطأ أثناء الرفع ❌";
+        console.error(err);
+      });
+    }
+  </script>
 
 </body>
-  <!-- زر رفع الصور -->
-<input type="file" id="imageUpload" />
-<button onclick="uploadImage()">رفع الصورة</button>
-
-<p id="status"></p>
-<img id="preview" width="250" />
-
-<script>
-function uploadImage() {
-  const file = document.getElementById("imageUpload").files[0];
-  if (!file) {
-    alert("اختر صورة أولاً");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "unsigned_upload"); // اسم الـ preset
-  formData.append("cloud_name", "dtwqkxjec"); // Cloud name حقك
-
-  document.getElementById("status").innerText = "جاري الرفع...";
-
-  fetch("https://api.cloudinary.com/v1_1/dtwqkxjec/image/upload", {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("status").innerText = "تم الرفع ✅";
-    document.getElementById("preview").src = data.secure_url;
-
-    console.log("رابط الصورة:", data.secure_url);
-  })
-  .catch(err => {
-    document.getElementById("status").innerText = "فشل الرفع ❌";
-    console.error(err);
-  });
-}
-</script>
+</html>
+</body>
 </html>
