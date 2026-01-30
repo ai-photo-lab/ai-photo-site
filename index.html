@@ -1,18 +1,4 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>AI Photo Editor</title>
-</head>
-<body style="text-align:center;font-family:Arial;margin-top:50px;">
-
-  <h1>ارفع صورتك للتعديل</h1>
-
-  <input type="file" />
-  <br><br>
-  <button>إرسال الصورة</button>
-
-  <p>سيتم تعديل الصورة وإعادتها لك هنا لاحقاً</p>
-<!DOCTYPE html>
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
@@ -23,17 +9,14 @@
 
   <h1>ارفع صورتك للتعديل</h1>
 
-  <!-- اختيار الصورة -->
-  <input type="file" id="imageUpload" />
+  <input type="file" id="imageUpload" accept="image/*" />
   <br><br>
 
-  <!-- زر الرفع -->
   <button onclick="uploadImage()">رفع الصورة</button>
 
   <p id="status"></p>
 
-  <!-- معاينة الصورة بعد الرفع -->
-  <img id="preview" width="250" />
+  <img id="preview" width="250" style="margin-top:15px;border-radius:10px;" />
 
   <script>
     function uploadImage() {
@@ -46,7 +29,7 @@
 
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "unsigned_upload"); 
+      formData.append("upload_preset", "unsigned_upload");
       formData.append("cloud_name", "dtwqkxjec");
 
       document.getElementById("status").innerText = "جاري رفع الصورة...";
@@ -59,7 +42,6 @@
       .then(data => {
         document.getElementById("status").innerText = "تم رفع الصورة بنجاح ✅";
         document.getElementById("preview").src = data.secure_url;
-
         console.log("رابط الصورة:", data.secure_url);
       })
       .catch(err => {
@@ -69,7 +51,5 @@
     }
   </script>
 
-</body>
-</html>
 </body>
 </html>
